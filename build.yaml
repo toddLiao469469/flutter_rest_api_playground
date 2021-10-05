@@ -1,0 +1,17 @@
+targets:
+  $default:
+    sources:
+      - lib/**
+    builders:
+      freezed:
+        enabled: true
+        generate_for:
+          include:
+            - lib/model/**
+      mobx_codegen:
+        enabled: true
+        generate_for:
+          include:
+            - lib/viewModel/**
+     
+      

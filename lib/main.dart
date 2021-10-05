@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_rest_api_playground/service/http.dart';
+
+import 'model/users/users.dart';
+import 'service/url_path.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +41,23 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter++;
     });
+  }
+
+  void fetchData() async {
+    HttpService httpService = HttpService();
+    final response = await httpService.get('users');
+    final List<Users> result = (response.data as List)
+        .map(
+          (res) => Users.fromJson(res),
+        )
+        .toList();
+    print(result[0]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
   }
 
   @override

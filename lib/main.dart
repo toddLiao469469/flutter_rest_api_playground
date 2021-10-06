@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rest_api_playground/service/http.dart';
 
 import 'model/users/users.dart';
-import 'service/url_path.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,25 +42,18 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void fetchData() async {
+  Future<List<Users>> fetchData() async {
     HttpService httpService = HttpService();
     final response = await httpService.get('users');
-    final List<Users> result = (response.data as List)
-        .map(
-          (res) => Users.fromJson(res),
-        )
-        .toList();
+    final jsonStr = json.encode(response.data);
+    final result = usersFromJson(jsonStr);
     print(result[0]);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
+    return result;
   }
 
   @override
   Widget build(BuildContext context) {
+    fetchData();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),

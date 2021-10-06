@@ -1,7 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_rest_api_playground/service/http.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
+import 'package:mobx/mobx.dart';
 
 import 'model/users/users.dart';
 
@@ -34,18 +34,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<List<Users>> fetchData() async {
-    HttpService httpService = HttpService();
-    final response = await httpService.get('users');
-    final jsonStr = json.encode(response.data);
-    final result = usersFromJson(jsonStr);
-    print(result[0]);
-    return result;
+  int _counter = 0;
+  UsersViewModel usersViewModel = UsersViewModel();
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  void initState() {
+    usersViewModel.fetchUserList();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    fetchData();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -54,23 +58,30 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FutureBuilder<List<Users>>(
-                future: fetchData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Text('loading...');
-                  }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      return Text('${snapshot.data![0].name}');
-                    }
-                  }
-                  if (snapshot.hasError) {
-                    return const Text('error!!');
-                  }
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Observer(
+              builder: (_) {
+                final future = usersViewModel.userList;
+                if (future == null) {
+                  return const Text('loading');
+                }
+                if (future.status == FutureStatus.pending) {
+                  return const Text('loading');
+                }
+                if (future.status == FutureStatus.fulfilled) {
+                  final ObservableList<Users> items = future.result;
 
-                  return const Text('loading...');
-                })
+                  return Text(items[0].name!);
+                }
+                return const Text('loading');
+              },
+            ),
           ],
         ),
       ),

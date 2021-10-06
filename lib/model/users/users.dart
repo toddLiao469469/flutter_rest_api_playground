@@ -8,9 +8,11 @@ import 'dart:convert';
 part 'users.freezed.dart';
 part 'users.g.dart';
 
-Users usersFromJson(String str) => Users.fromJson(json.decode(str));
+List<Users> usersFromJson(String str) =>
+    List<Users>.from(json.decode(str).map((x) => Users.fromJson(x)));
 
-String usersToJson(Users data) => json.encode(data.toJson());
+String usersToJson(List<Users> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 @freezed
 abstract class Users with _$Users {

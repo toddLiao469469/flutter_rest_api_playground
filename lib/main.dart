@@ -4,6 +4,7 @@ import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dar
 import 'package:mobx/mobx.dart';
 
 import 'model/users/users.dart';
+import 'view/components/custom_dropdown_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,7 +40,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     usersViewModel.fetchUserList();
+    usersViewModel.fetchFoo();
     super.initState();
+    usersViewModel.setupReactions();
+  }
+
+  @override
+  void dispose() {
+    usersViewModel.dispose();
+    super.dispose();
   }
 
   @override
@@ -52,21 +61,85 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Observer(
-              builder: (_) {
-                final future = usersViewModel.userList;
-                if (future == null) {
-                  return const Text('loading');
-                }
-                if (future.status == FutureStatus.pending) {
-                  return const Text('loading');
-                }
-                if (future.status == FutureStatus.fulfilled) {
+            Observer(builder: (_) {
+              final future = usersViewModel.foo;
+              if (future == null) {
+                return const Text('null');
+              }
+              switch (future.status) {
+                case FutureStatus.pending:
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(),
+                      Text('loading'),
+                    ],
+                  );
+                case FutureStatus.fulfilled:
+                  final String items = future.result;
+
+                  return Text(items);
+              }
+
+              return const Text('loading');
+            }),
+            Observer(builder: (_) {
+              final future = usersViewModel.userList;
+              if (future == null) {
+                return const Text('null');
+              }
+              switch (future.status) {
+                case FutureStatus.pending:
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(),
+                      Text('loading'),
+                    ],
+                  );
+                case FutureStatus.fulfilled:
                   final ObservableList<Users> items = future.result;
 
-                  return Text(items[0].name!);
+                  return Column(
+                    children: [
+                      const Text('all user name'),
+                      Wrap(
+                        children: [
+                          ...items.map(
+                            (element) => Text('${element.name!} ,'),
+                          ),
+                        ],
+                      )
+                    ],
+                  );
+              }
+
+              return const Text('loading');
+            }),
+            CustomDropdownButton(
+              usersViewModel: usersViewModel,
+            ),
+            Observer(
+              builder: (_) {
+                final future = usersViewModel.seletedUser;
+                if (future == null) {
+                  return const Text('null');
                 }
-                return const Text('loading');
+
+                switch (usersViewModel.loading) {
+                  case true:
+                    return const CircularProgressIndicator();
+
+                  case false:
+                    final Users items = future.result;
+
+                    return Column(
+                      children: [
+                        Text(items.name!),
+                      ],
+                    );
+                }
+                return Text('null');
               },
             ),
           ],

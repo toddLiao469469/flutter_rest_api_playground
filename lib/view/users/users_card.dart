@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rest_api_playground/model/users/users.dart';
+import 'package:flutter_rest_api_playground/routes/router.gr.dart';
 
 class UserCard extends StatelessWidget {
   const UserCard({Key? key, required this.userInfo}) : super(key: key);
@@ -23,6 +25,16 @@ class UserCard extends StatelessWidget {
           ),
           Row(
             children: [const Text('email'), Text(userInfo.email!)],
+          ),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  AutoRouter.of(context).pushNamed('/user/${userInfo.id}');
+                },
+                child: Text('datailPage'),
+              )
+            ],
           )
         ],
       ),

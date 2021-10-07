@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_rest_api_playground/di/injector_provider.dart';
 import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
-import 'package:mobx/mobx.dart';
 
 import 'model/users/users.dart';
 import 'view/components/custom_dropdown_button.dart';
 import 'routes/router.gr.dart';
 
 void main() {
+  setupInjection();
   runApp(MyApp());
 }
 

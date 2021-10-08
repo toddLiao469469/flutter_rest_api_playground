@@ -24,39 +24,55 @@ class _UserDetailPageState extends State<UserDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Text('${widget.userId}'),
-          Observer(builder: (_) {
-            final future = usersViewModel.seletedUser;
-            if (future == null) {
-              return const Text('null');
-            }
-            switch (future.status) {
-              case FutureStatus.pending:
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    CircularProgressIndicator(),
-                    Text('loading'),
-                  ],
-                );
-              case FutureStatus.fulfilled:
-                final Users item = future.result;
+    return Scaffold(
+      appBar: AppBar(
+        title: Observer(builder: (_) {
+          final future = usersViewModel.seletedUser;
+          if (future == null) {
+            return const Text('');
+          }
+          switch (future.status) {
+            case FutureStatus.fulfilled:
+              return Text('${future.result?.name}');
+          }
+          return const Text('');
+        }),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Text('${widget.userId}'),
+            Observer(builder: (_) {
+              final future = usersViewModel.seletedUser;
+              if (future == null) {
+                return const Text('null');
+              }
+              switch (future.status) {
+                case FutureStatus.pending:
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(),
+                      Text('loading'),
+                    ],
+                  );
+                case FutureStatus.fulfilled:
+                  final Users item = future.result;
 
-                return Container(
-                  width: 300,
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [Text('${item.name}')],
-                  ),
-                );
-            }
+                  return Container(
+                    width: 300,
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [Text('${item.name}')],
+                    ),
+                  );
 
-            return const Text('loading');
-          }),
-        ],
+                case FutureStatus.rejected:
+                  return const Text('rejected');
+              }
+            }),
+          ],
+        ),
       ),
     );
   }

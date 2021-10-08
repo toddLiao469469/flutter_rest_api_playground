@@ -9,40 +9,41 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(4.0),
+      padding: EdgeInsets.all(8.0),
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 userInfo.name!,
-                style: TextStyle(fontSize: 16),
-              )
-            ],
-          ),
-          Row(
-            children: [const Text('username'), Text(userInfo.username!)],
-          ),
-          Row(
-            children: [const Text('email'), Text(userInfo.email!)],
-          ),
-          Row(
-            children: [
+                style: const TextStyle(fontSize: 16),
+              ),
               GestureDetector(
                 onTap: () {
-                  AutoRouter.of(context).pushNamed('/user/${userInfo.id}');
+                  // AutoRouter.of(context).pushNamed('/user/${userInfo.id}');
+                  AutoRouter.of(context)
+                      .push(UserDetailRoute(userId: userInfo.id.toString()));
                 },
-                child: Text('datailPage'),
+                child: const Icon(Icons.arrow_forward),
               )
             ],
           )
         ],
       ),
-      decoration: BoxDecoration(
-        border: Border.all(),
-        borderRadius: const BorderRadius.all(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
           Radius.circular(4.0),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            offset: Offset(3.0, 6.0), //陰影y軸偏移量
+            blurRadius: 6, //陰影模糊程度
+            spreadRadius: 3, //陰影擴散程度
+          )
+        ],
       ),
     );
   }

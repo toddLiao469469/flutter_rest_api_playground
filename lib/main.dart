@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rest_api_playground/di/injector_provider.dart';
 import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
 
-import 'model/users/users.dart';
-import 'view/components/custom_dropdown_button.dart';
 import 'routes/router.gr.dart';
 
 void main() {
@@ -28,6 +24,17 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
     );
+
+    // return MaterialApp(
+    //   routes: {
+    //     '/': (context) => const MyHomePage(),
+    //     'users_list': (context) => const UsersListPage(),
+    //   },
+    //   title: 'Flutter Demo',
+    //   theme: ThemeData(
+    //     primarySwatch: Colors.blue,
+    //   ),
+    // );
   }
 }
 
@@ -68,7 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
             GestureDetector(
               child: Text('listPage'),
               onTap: () {
-                AutoRouter.of(context).pushNamed('/users');
+                AutoRouter.of(context).push(UsersListRoute());
+                // Navigator.pushNamed(context, 'users_list');
               },
             ),
           ],

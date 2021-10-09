@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rest_api_playground/di/injector_provider.dart';
+import 'package:flutter_rest_api_playground/service/inherited_widget.dart';
+import 'package:flutter_rest_api_playground/service/injector_provider.dart';
 import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
 
 import 'routes/router.gr.dart';
@@ -47,6 +48,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   UsersViewModel usersViewModel = UsersViewModel();
+  int count = 0;
 
   @override
   void initState() {
@@ -79,9 +81,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Navigator.pushNamed(context, 'users_list');
               },
             ),
+            DataWidget(
+              data: count,
+              child: Column(
+                children: [
+                  _Foo(),
+                  GestureDetector(
+                    child: Text('add 1'),
+                    onTap: () {
+                      setState(() {
+                        count++;
+                      });
+                      // Navigator.pushNamed(context, 'users_list');
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class _Foo extends StatefulWidget {
+  _Foo({Key? key}) : super(key: key);
+
+  @override
+  __FooState createState() => __FooState();
+}
+
+class __FooState extends State<_Foo> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("Dependencies change");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(DataWidget.of(context)!.data.toString());
   }
 }

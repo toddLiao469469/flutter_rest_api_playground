@@ -1,10 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_rest_api_playground/di/injector_provider.dart';
+import 'package:flutter_rest_api_playground/service/injector_provider.dart';
 import 'package:flutter_rest_api_playground/model/users/users.dart';
 import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
-import 'package:mobx/mobx.dart';
 
 class UserDetailPage extends StatefulWidget {
   const UserDetailPage({Key? key, @PathParam('id') required this.userId})
@@ -16,11 +15,12 @@ class UserDetailPage extends StatefulWidget {
 
 class _UserDetailPageState extends State<UserDetailPage> {
   final usersViewModel = inject<UsersViewModel>();
-  @override
-  void initState() {
-    // usersViewModel.fetchSeledtedUser(widget.userId);
-    super.initState();
-  }
+
+  // @override
+  // void initState() {
+  //   usersViewModel.fetchSeledtedUser(widget.userId);
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

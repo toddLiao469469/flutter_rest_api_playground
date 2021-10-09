@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rest_api_playground/di/injector_provider.dart';
+import 'package:flutter_rest_api_playground/service/injector_provider.dart';
 import 'package:flutter_rest_api_playground/model/users/users.dart';
 import 'package:flutter_rest_api_playground/routes/router.gr.dart';
 import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
@@ -45,9 +45,9 @@ class UserCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black26,
-            offset: Offset(3.0, 6.0), //陰影y軸偏移量
-            blurRadius: 6, //陰影模糊程度
-            spreadRadius: 3, //陰影擴散程度
+            offset: Offset(3.0, 6.0),
+            blurRadius: 6,
+            spreadRadius: 3,
           )
         ],
       ),

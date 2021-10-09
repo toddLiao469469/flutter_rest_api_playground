@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_rest_api_playground/di/injector_provider.dart';
+import 'package:flutter_rest_api_playground/service/injector_provider.dart';
 import 'package:flutter_rest_api_playground/model/users/users.dart';
 import 'package:flutter_rest_api_playground/view/users/users_card.dart';
 import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';

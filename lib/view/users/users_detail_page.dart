@@ -18,7 +18,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
   final usersViewModel = inject<UsersViewModel>();
   @override
   void initState() {
-    usersViewModel.fetchSeledtedUser(widget.userId);
+    // usersViewModel.fetchSeledtedUser(widget.userId);
     super.initState();
   }
 
@@ -31,8 +31,8 @@ class _UserDetailPageState extends State<UserDetailPage> {
           if (future == null) {
             return const Text('');
           }
-          switch (future.status) {
-            case FutureStatus.fulfilled:
+          switch (usersViewModel.loading) {
+            case false:
               return Text('${future.result?.name}');
           }
           return const Text('');
@@ -47,8 +47,8 @@ class _UserDetailPageState extends State<UserDetailPage> {
               if (future == null) {
                 return const Text('null');
               }
-              switch (future.status) {
-                case FutureStatus.pending:
+              switch (usersViewModel.loading) {
+                case true:
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -56,7 +56,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
                       Text('loading'),
                     ],
                   );
-                case FutureStatus.fulfilled:
+                case false:
                   final Users item = future.result;
 
                   return Container(
@@ -66,10 +66,8 @@ class _UserDetailPageState extends State<UserDetailPage> {
                       children: [Text('${item.name}')],
                     ),
                   );
-
-                case FutureStatus.rejected:
-                  return const Text('rejected');
               }
+              return Text('');
             }),
           ],
         ),

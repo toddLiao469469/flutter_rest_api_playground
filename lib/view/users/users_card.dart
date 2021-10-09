@@ -1,11 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rest_api_playground/di/injector_provider.dart';
 import 'package:flutter_rest_api_playground/model/users/users.dart';
 import 'package:flutter_rest_api_playground/routes/router.gr.dart';
+import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
 
 class UserCard extends StatelessWidget {
-  const UserCard({Key? key, required this.userInfo}) : super(key: key);
+  UserCard({Key? key, required this.userInfo}) : super(key: key);
   final Users userInfo;
+
+  final usersViewModel = inject<UsersViewModel>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,6 +27,7 @@ class UserCard extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   // AutoRouter.of(context).pushNamed('/user/${userInfo.id}');
+                  usersViewModel.fetchSeledtedUser(userInfo.id.toString());
                   AutoRouter.of(context)
                       .push(UserDetailRoute(userId: userInfo.id.toString()));
                 },

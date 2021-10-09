@@ -20,7 +20,7 @@ abstract class _UsersViewModelBase with Store {
   ObservableFuture<Users>? seletedUser;
 
   @observable
-  bool loading = false;
+  bool loading = true;
 
   @observable
   ObservableFuture<String>? foo;

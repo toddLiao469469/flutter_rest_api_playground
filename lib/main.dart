@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rest_api_playground/bloc/counter_bloc.dart';
 import 'package:flutter_rest_api_playground/service/http.dart';
 
 import 'model/users/users.dart';
@@ -34,18 +35,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<List<Users>> fetchData() async {
-    HttpService httpService = HttpService();
-    final response = await httpService.get('users');
-    final jsonStr = json.encode(response.data);
-    final result = usersFromJson(jsonStr);
-    print(result[0]);
-    return result;
-  }
+  final bloc = CounterBLoC();
 
   @override
   Widget build(BuildContext context) {
-    fetchData();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -54,22 +47,26 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FutureBuilder<List<Users>>(
-                future: fetchData(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                OutlinedButton(
+                    onPressed: () {
+                      bloc.counterEventSink.add(DecrementEvent());
+                    },
+                    child: Text('-1')),
+                OutlinedButton(
+                    onPressed: () {
+                      bloc.counterEventSink.add(IncrementEvent());
+                    },
+                    child: Text('+1')),
+              ],
+            ),
+            StreamBuilder(
+                stream: bloc.streamCounter,
+                initialData: 0,
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Text('loading...');
-                  }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      return Text('${snapshot.data![0].name}');
-                    }
-                  }
-                  if (snapshot.hasError) {
-                    return const Text('error!!');
-                  }
-
-                  return const Text('loading...');
+                  return Center(child: Text(snapshot.data.toString()));
                 })
           ],
         ),

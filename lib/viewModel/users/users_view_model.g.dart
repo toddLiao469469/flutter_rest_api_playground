@@ -9,63 +9,42 @@ part of 'users_view_model.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UsersViewModel on _UsersViewModelBase, Store {
+  Computed<StoreStatus>? _$statusComputed;
+
+  @override
+  StoreStatus get status =>
+      (_$statusComputed ??= Computed<StoreStatus>(() => super.status,
+              name: '_UsersViewModelBase.status'))
+          .value;
+
   final _$userListAtom = Atom(name: '_UsersViewModelBase.userList');
 
   @override
-  ObservableFuture<ObservableList<Users>>? get userList {
+  ObservableList<Users>? get userList {
     _$userListAtom.reportRead();
     return super.userList;
   }
 
   @override
-  set userList(ObservableFuture<ObservableList<Users>>? value) {
+  set userList(ObservableList<Users>? value) {
     _$userListAtom.reportWrite(value, super.userList, () {
       super.userList = value;
     });
   }
 
-  final _$seletedUseridAtom = Atom(name: '_UsersViewModelBase.seletedUserid');
+  final _$_userListFutureAtom =
+      Atom(name: '_UsersViewModelBase._userListFuture');
 
   @override
-  String? get seletedUserid {
-    _$seletedUseridAtom.reportRead();
-    return super.seletedUserid;
+  ObservableFuture<ObservableList<Users>>? get _userListFuture {
+    _$_userListFutureAtom.reportRead();
+    return super._userListFuture;
   }
 
   @override
-  set seletedUserid(String? value) {
-    _$seletedUseridAtom.reportWrite(value, super.seletedUserid, () {
-      super.seletedUserid = value;
-    });
-  }
-
-  final _$seletedUserAtom = Atom(name: '_UsersViewModelBase.seletedUser');
-
-  @override
-  ObservableFuture<Users>? get seletedUser {
-    _$seletedUserAtom.reportRead();
-    return super.seletedUser;
-  }
-
-  @override
-  set seletedUser(ObservableFuture<Users>? value) {
-    _$seletedUserAtom.reportWrite(value, super.seletedUser, () {
-      super.seletedUser = value;
-    });
-  }
-
-  final _$loadingAtom = Atom(name: '_UsersViewModelBase.loading');
-
-  @override
-  bool get loading {
-    _$loadingAtom.reportRead();
-    return super.loading;
-  }
-
-  @override
-  set loading(bool value) {
-    _$loadingAtom.reportWrite(value, super.loading, () {
-      super.loading = value;
+  set _userListFuture(ObservableFuture<ObservableList<Users>>? value) {
+    _$_userListFutureAtom.reportWrite(value, super._userListFuture, () {
+      super._userListFuture = value;
     });
   }
 
@@ -84,13 +63,12 @@ mixin _$UsersViewModel on _UsersViewModelBase, Store {
     });
   }
 
-  final _$fetchSeledtedUserAsyncAction =
-      AsyncAction('_UsersViewModelBase.fetchSeledtedUser');
+  final _$fetchUserListAsyncAction =
+      AsyncAction('_UsersViewModelBase.fetchUserList');
 
   @override
-  Future<dynamic> fetchSeledtedUser(String? userid) {
-    return _$fetchSeledtedUserAsyncAction
-        .run(() => super.fetchSeledtedUser(userid));
+  Future<dynamic> fetchUserList() {
+    return _$fetchUserListAsyncAction.run(() => super.fetchUserList());
   }
 
   final _$_UsersViewModelBaseActionController =
@@ -108,35 +86,11 @@ mixin _$UsersViewModel on _UsersViewModelBase, Store {
   }
 
   @override
-  Future<dynamic> fetchUserList() {
-    final _$actionInfo = _$_UsersViewModelBaseActionController.startAction(
-        name: '_UsersViewModelBase.fetchUserList');
-    try {
-      return super.fetchUserList();
-    } finally {
-      _$_UsersViewModelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void seletedUsesrid(String? userid) {
-    final _$actionInfo = _$_UsersViewModelBaseActionController.startAction(
-        name: '_UsersViewModelBase.seletedUsesrid');
-    try {
-      return super.seletedUsesrid(userid);
-    } finally {
-      _$_UsersViewModelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 userList: ${userList},
-seletedUserid: ${seletedUserid},
-seletedUser: ${seletedUser},
-loading: ${loading},
-foo: ${foo}
+foo: ${foo},
+status: ${status}
     ''';
   }
 }

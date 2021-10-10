@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rest_api_playground/service/injector_provider.dart';
 import 'package:flutter_rest_api_playground/model/users/users.dart';
 import 'package:flutter_rest_api_playground/routes/router.gr.dart';
+import 'package:flutter_rest_api_playground/viewModel/userDetail/user_detail_view_model.dart';
 import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
 
 class UserCard extends StatelessWidget {
@@ -10,11 +11,12 @@ class UserCard extends StatelessWidget {
   final Users userInfo;
 
   final usersViewModel = inject<UsersViewModel>();
+  final userDetailViewModel = inject<UserDetailViewModel>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
           Row(
@@ -27,7 +29,7 @@ class UserCard extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   // AutoRouter.of(context).pushNamed('/user/${userInfo.id}');
-                  usersViewModel.fetchSeledtedUser(userInfo.id.toString());
+                  userDetailViewModel.fetchSeledtedUser(userInfo.id.toString());
                   AutoRouter.of(context)
                       .push(UserDetailRoute(userId: userInfo.id.toString()));
                 },

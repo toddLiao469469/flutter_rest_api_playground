@@ -26,17 +26,17 @@ class _UsersListPageState extends State<UsersListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Users List Page'),
+        title: const Text('Users List Page'),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Observer(builder: (_) {
-            final future = usersViewModel.userList;
-            if (future == null) {
-              return const Text('null');
-            }
-            switch (future.status) {
-              case FutureStatus.pending:
+            final status = usersViewModel.status;
+
+            switch (status) {
+              case StoreStatus.initial:
+                return const Text('initial');
+              case StoreStatus.loading:
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
@@ -44,8 +44,8 @@ class _UsersListPageState extends State<UsersListPage> {
                     Text('loading'),
                   ],
                 );
-              case FutureStatus.fulfilled:
-                final ObservableList<Users> items = future.result;
+              case StoreStatus.done:
+                final ObservableList<Users> items = usersViewModel.userList!;
 
                 return Container(
                   width: 300,
@@ -60,8 +60,6 @@ class _UsersListPageState extends State<UsersListPage> {
                   ),
                 );
             }
-
-            return const Text('loading');
           }),
         ),
       ),

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
+import 'package:flutter_rest_api_playground/viewModel/userDetail/user_detail_view_model.dart';
 
 class CustomDropdownButton extends StatelessWidget {
-  CustomDropdownButton({Key? key, required this.usersViewModel})
+  CustomDropdownButton({Key? key, required this.userDetailViewModel})
       : super(key: key);
-  final UsersViewModel usersViewModel;
+  final UserDetailViewModel userDetailViewModel;
 
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
       return DropdownButton<String>(
-        value: usersViewModel.seletedUserid,
+        value: userDetailViewModel.seletedUserid,
         icon: const Icon(Icons.arrow_downward),
         iconSize: 24,
         elevation: 16,
@@ -21,7 +21,7 @@ class CustomDropdownButton extends StatelessWidget {
           color: Colors.deepPurpleAccent,
         ),
         onChanged: (String? newValue) {
-          usersViewModel.seletedUsesrid(newValue);
+          userDetailViewModel.seletedUsesrid(newValue);
         },
         items: List.generate(10, (index) => (index + 1).toString())
             .map<DropdownMenuItem<String>>((String value) {

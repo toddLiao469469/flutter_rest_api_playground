@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rest_api_playground/service/inherited_widget.dart';
 import 'package:flutter_rest_api_playground/service/injector_provider.dart';
+import 'package:flutter_rest_api_playground/viewModel/userDetail/user_detail_view_model.dart';
 import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
 
 import 'routes/router.gr.dart';
@@ -48,6 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   UsersViewModel usersViewModel = UsersViewModel();
+  UserDetailViewModel userDetailViewModel = UserDetailViewModel();
   int count = 0;
 
   @override
@@ -55,12 +57,12 @@ class _MyHomePageState extends State<MyHomePage> {
     usersViewModel.fetchUserList();
     usersViewModel.fetchFoo();
     super.initState();
-    usersViewModel.setupReactions();
+    userDetailViewModel.setupReactions();
   }
 
   @override
   void dispose() {
-    usersViewModel.dispose();
+    userDetailViewModel.dispose();
     super.dispose();
   }
 
@@ -68,16 +70,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('home page'),
+        title: const Text('home page'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             GestureDetector(
-              child: Text('listPage'),
+              child: const Text('listPage'),
               onTap: () {
-                AutoRouter.of(context).push(UsersListRoute());
+                AutoRouter.of(context).push(const UsersListRoute());
                 // Navigator.pushNamed(context, 'users_list');
               },
             ),
@@ -87,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   _Foo(),
                   GestureDetector(
-                    child: Text('add 1'),
+                    child: const Text('add 1'),
                     onTap: () {
                       setState(() {
                         count++;

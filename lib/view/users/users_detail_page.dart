@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_rest_api_playground/service/injector_provider.dart';
 import 'package:flutter_rest_api_playground/model/users/users.dart';
-import 'package:flutter_rest_api_playground/viewModel/users/users_view_model.dart';
+import 'package:flutter_rest_api_playground/viewModel/userDetail/user_detail_view_model.dart';
 
 class UserDetailPage extends StatefulWidget {
   const UserDetailPage({Key? key, @PathParam('id') required this.userId})
@@ -14,7 +14,7 @@ class UserDetailPage extends StatefulWidget {
 }
 
 class _UserDetailPageState extends State<UserDetailPage> {
-  final usersViewModel = inject<UsersViewModel>();
+  final userDetailViewModel = inject<UserDetailViewModel>();
 
   // @override
   // void initState() {
@@ -27,11 +27,11 @@ class _UserDetailPageState extends State<UserDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Observer(builder: (_) {
-          final future = usersViewModel.seletedUser;
+          final future = userDetailViewModel.seletedUser;
           if (future == null) {
             return const Text('');
           }
-          switch (usersViewModel.loading) {
+          switch (userDetailViewModel.loading) {
             case false:
               return Text('${future.result?.name}');
           }
@@ -41,13 +41,13 @@ class _UserDetailPageState extends State<UserDetailPage> {
       body: Center(
         child: Column(
           children: [
-            Text('${widget.userId}'),
+            Text(widget.userId),
             Observer(builder: (_) {
-              final future = usersViewModel.seletedUser;
+              final future = userDetailViewModel.seletedUser;
               if (future == null) {
                 return const Text('null');
               }
-              switch (usersViewModel.loading) {
+              switch (userDetailViewModel.loading) {
                 case true:
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +67,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
                     ),
                   );
               }
-              return Text('');
+              return const Text('');
             }),
           ],
         ),

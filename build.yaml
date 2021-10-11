@@ -8,8 +8,9 @@ targets:
         generate_for:
           include:
             - lib/model/**
+            - lib/bloc/**
       mobx_codegen:
-        enabled: true
+        enabled: false
         generate_for:
           include:
             - lib/viewModel/**

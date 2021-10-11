@@ -13,10 +13,15 @@ class HttpService {
     initializeInterceptors();
   }
 
-  Future<Response> _request(String path, {required String method}) async {
+  Future<Response> _request(String path,
+      {required String method, Map<String, dynamic>? queryParameters}) async {
     Response response;
     try {
-      response = await _dio.request(path, options: Options(method: method));
+      response = await _dio.request(
+        path,
+        queryParameters: queryParameters,
+        options: Options(method: method),
+      );
     } on DioError catch (e) {
       print(e.message);
       throw Exception(e.message);
@@ -25,8 +30,9 @@ class HttpService {
     return response;
   }
 
-  Future<Response> get(String path) async {
-    return _request(path, method: 'get');
+  Future<Response> get(String path,
+      {Map<String, dynamic>? queryParameters}) async {
+    return _request(path, method: 'get', queryParameters: queryParameters);
   }
 
   initializeInterceptors() {

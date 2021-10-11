@@ -20,6 +20,11 @@ dependencies:
   flutter_mobx: ^2.0.2
   freezed_annotation: ^0.14.3
   dio: ^4.0.0
+  bloc: ^7.2.1
+  flutter_bloc: ^7.3.0
+  equatable: ^2.0.3
+  bloc_concurrency: ^0.1.0
+  stream_transform: ^2.0.0
 
 dev_dependencies:
   flutter_test:

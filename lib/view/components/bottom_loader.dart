@@ -11,9 +11,8 @@ class BottomLoader extends StatelessWidget {
   final bool hasReachedMax;
   @override
   Widget build(BuildContext context) {
-    print('$hasReachedMax , $postStatus');
     return Center(
-      child: Expanded(
+      child: Container(
         child: hasReachedMax == true && postStatus == PostStatus.success
             ? const _TextSection()
             : const _CircularProgress(),

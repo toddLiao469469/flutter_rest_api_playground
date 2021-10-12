@@ -36,7 +36,6 @@ class _PostsListState extends State<PostsList> {
                 ListView.builder(
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    print('$index , ${state.posts.length}');
                     return index >= state.posts.length
                         ? const SizedBox()
                         : PostListItem(post: state.posts[index]);
